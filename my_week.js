@@ -1,8 +1,61 @@
-const apikey = "";
+// Initialize some variables
+const myWeekPage = "my_week";
 
-var currentFilter = "OFF";
+const initButtons = [
+	".left-pane-my-week",
+	".surface-my-week",
+	".prev-week-button",
+	".next-week-button",
+	".back-to-this-week"
+	];
+		
+const sectionNames = [
+	"Previous weeks",
+	"Earlier this week",
+	"Today",
+	"Upcoming",
+	"Without a date",
+	"Done"
+	];
+	
+let currentFilter = "OFF";
+
+function activeBoard(){
+	// location.href
+	// example: "https://coastalcomm.monday.com/boards/273661411/"
+	// regex: (?<=boards\/)(.*?)(?=\/)
+	// location.href.match('(?<=boards\/)(.*?)(?=\/)')[0];
+	
+	const regex = '(?<=boards\/)(.*?)(?=\/)';
+	let boardID = 0;
+	try{
+		boardID = location.href.match(regex)[0];
+	}catch(error){
+		console.log("Error: No active board. Error: " + error);
+	}
+	
+	return boardID;
+}
+
+function folderPath(){
+	const regex = '((\\\\CCIDC1\\)|(N:\\))(.*)(?=\d)';
+	const path = $(".description-line>.text-content").text();
+	
+	if(path.indexOf(regex)){
+		return path;
+	}else{
+		return "No Valid Path";
+	}
+}
 
 function hideTasks(filterType){
+	if(filterType === "OFF"){ return; }
+	console.log("Hiding: " + filterType);
+	
+	// Hide section headers with no Tasks
+	
+	
+	// Hide individual task elements
 	$(".column-title > div > span").not(":contains('" + filterType + "')").each(function(i){$(this).parents().eq(5).hide();});
 
 	/* Notification
@@ -20,6 +73,7 @@ function hideTasks(filterType){
 }
 
 function unhideTasks(filterType){
+	console.log("Showing all tasks.")
 	$(".column-title > div > span").not(":contains('" + filterType + "')").each(function(i){$(this).parents().eq(5).show();});
 
 	/* Notification
@@ -54,32 +108,48 @@ function inject(){
 }
 
 function registerButtons(){
-
-	$(".left-pane-my-week").click(function(){
-		init();
-	});
-
-	$(".prev-week-button").click(function(){
-		init();
-	});
-
-	$(".next-week-button").click(function(){
-		init();
-	});
-
-	$(".back-to-this-week").click(function(){
-		init();
+	console.log("Registering buttons...");
+	
+	// jQuery multiple select -> button1, button2, etc..
+	$(initButtons.join(',')).click(function(){
+			setTimeout(init,50);
+		});
+	
+	// Register collapse button to refresh filter instead of re-initializing
+	$(".section-type-container").click(function(){
+		console.log("re-hide after collapse...");
+		setTimeout(function(){
+				hideTasks(currentFilter);
+		}, 50);
 	});
 }
 
-
 function init(){
-	setTimeout(function() {
+	console.log("Checking for page load...");
+	if($(".person-filter-button-wrapper").length === 0){
+		// console.log("No person filter, re-initializing.");
+		setTimeout(init,50);
+		return;
+	}
+	
+	console.log("Page loaded, initializing...");
+	if(location.href.includes(myWeekPage)){
 		inject();
 		hideTasks("TC");
+	}
+
+	registerButtons();
+	
+	/* // Dumb assume loaded after 3 seconds
+	setTimeout(function() {
+		if(location.href.includes(myWeekPage)){
+			inject();
+			hideTasks("TC");
+		}
 
 		registerButtons();
-	}, 3000);
+	}, 2000); // 3000
+	*/
 }
 
 init();
