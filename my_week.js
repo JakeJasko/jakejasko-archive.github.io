@@ -1,4 +1,3 @@
-// Initialize some variables
 const myWeekPage = "my_week";
 
 const initButtons = [
@@ -20,11 +19,11 @@ const sectionNames = [
 	
 let currentFilter = "OFF";
 
-function activeBoard(){
-	// location.href
-	// example: "https://coastalcomm.monday.com/boards/273661411/"
-	// regex: (?<=boards\/)(.*?)(?=\/)
-	// location.href.match('(?<=boards\/)(.*?)(?=\/)')[0];
+function activeBoard()
+	/* location.href
+	 example: "https://coastalcomm.monday.com/boards/273661411/"
+	 regex: (?<=boards\/)(.*?)(?=\/)
+	 location.href.match('(?<=boards\/)(.*?)(?=\/)')[0]; */
 	
 	const regex = '(?<=boards\/)(.*?)(?=\/)';
 	let boardID = 0;
@@ -53,18 +52,10 @@ function hideTasks(filterType){
 	console.log("Hiding: " + filterType);
 	
 	// Hide section headers with no Tasks
-	
+	// TO DO
 	
 	// Hide individual task elements
 	$(".column-title > div > span").not(":contains('" + filterType + "')").each(function(i){$(this).parents().eq(5).hide();});
-
-	/* Notification
-	try{
-		$(".section-type-container").notify("Non-TC Tasks Hidden", {position: "right"});
-	}catch(err){
-		console.log(err.message);
-	}
-	*/
 
 	currentFilter = filterType;
 
@@ -75,14 +66,6 @@ function hideTasks(filterType){
 function unhideTasks(filterType){
 	console.log("Showing all tasks.")
 	$(".column-title > div > span").not(":contains('" + filterType + "')").each(function(i){$(this).parents().eq(5).show();});
-
-	/* Notification
-	try{
-		$(".section-type-container").notify("Non-TC Tasks Shown", {position: "right"});
-	}catch(err){
-		console.log(err.message);
-	}
-	*/
 
 	currentFilter = "OFF";
 
@@ -111,7 +94,7 @@ function registerButtons(){
 	console.log("Registering buttons...");
 	
 	// jQuery multiple select -> button1, button2, etc..
-	$(initButtons.join(',')).click(function(){
+	$(initButtons.join()).click(function(){
 			setTimeout(init,50);
 		});
 	
