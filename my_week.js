@@ -19,13 +19,13 @@ const sectionNames = [
 	
 let currentFilter = "OFF";
 
-function activeBoard()
+function activeBoard(){
 	/* location.href
 	 example: "https://coastalcomm.monday.com/boards/273661411/"
 	 regex: (?<=boards\/)(.*?)(?=\/)
 	 location.href.match('(?<=boards\/)(.*?)(?=\/)')[0]; */
 	
-	const regex = '(?<=boards\/)(.*?)(?=\/)';
+	const regex = "(?<=boards\/)(.*?)(?=\/)";
 	let boardID = 0;
 	try{
 		boardID = location.href.match(regex)[0];
@@ -37,14 +37,14 @@ function activeBoard()
 }
 
 function folderPath(){
-	const regex = '((\\\\CCIDC1\\)|(N:\\))(.*)(?=\d)';
+	const regex = "((\\\\CCIDC1\\)|(N:\\))(.*)(?=\d)";
 	const path = $(".description-line>.text-content").text();
 	
 	if(path.indexOf(regex)){
 		return path;
-	}else{
-		return "No Valid Path";
 	}
+	
+	return "No Valid Path";
 }
 
 function hideTasks(filterType){
@@ -94,9 +94,7 @@ function registerButtons(){
 	console.log("Registering buttons...");
 	
 	// jQuery multiple select -> button1, button2, etc..
-	$(initButtons.join()).click(function(){
-			setTimeout(init,50);
-		});
+	$(initButtons.join()).click(init);
 	
 	// Register collapse button to refresh filter instead of re-initializing
 	$(".section-type-container").click(function(){
@@ -111,7 +109,7 @@ function init(){
 	console.log("Checking for page load...");
 	if($(".person-filter-button-wrapper").length === 0){
 		// console.log("No person filter, re-initializing.");
-		setTimeout(init,50);
+		setTimeout(init,100);
 		return;
 	}
 	
@@ -122,17 +120,6 @@ function init(){
 	}
 
 	registerButtons();
-	
-	/* // Dumb assume loaded after 3 seconds
-	setTimeout(function() {
-		if(location.href.includes(myWeekPage)){
-			inject();
-			hideTasks("TC");
-		}
-
-		registerButtons();
-	}, 2000); // 3000
-	*/
 }
 
 init();
