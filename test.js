@@ -1,0 +1,3 @@
+function libraryTest(){
+  return "success!";
+}
