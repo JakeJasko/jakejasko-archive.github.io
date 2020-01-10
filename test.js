@@ -1,3 +1,3 @@
-export function libraryTest(){
+function libraryTest(){
   return "success!";
 }
