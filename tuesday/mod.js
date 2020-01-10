@@ -128,5 +128,3 @@ function init(){
 
 	registerButtons();
 }
-
-init();
